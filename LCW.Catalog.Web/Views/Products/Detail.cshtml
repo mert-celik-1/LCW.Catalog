@@ -1,0 +1,125 @@
+﻿@model ProductDto
+
+
+<div class="row">
+    <div class="col-md-9">
+
+        <div class="card">
+            <img src="https://thumbs.dreamstime.com/b/new-product-stamp-round-grunge-sign-label-181920855.jpg" class="card-img-top" />
+            <div class="card-body">
+                <h5 class="card-title">@Model.Name</h5>
+                <div class="badge bg-primary">Kategori : @Model.Name</div>
+                <p class="card-text"> @Model.Name</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Fiyat : @Model.Price TL</h4>
+                @if (Model.IsOfferable == true)
+                {
+                    if (Model.IsSold == false)
+                    {
+                        if (Model.IsAlreadyOffered == true)
+                        {
+                            <a asp-action="Withdraw" asp-controller="Products" asp-route-productId="@Model.Id" class="btn btn-danger">Teklifi Geri Çek</a>
+
+                        }
+                        else
+                        {
+                            <button data-toggle="modal" data-target="#Offer" class="btn btn-info">Teklif Ver</button>
+                            <button data-toggle="modal" data-target="#Buy" class="btn btn-info">Satın Al</button>
+
+                        }
+                    }
+
+                    else
+                    {
+                            <div>Ürün satışta değildir</div>
+                    }
+
+
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="Offer" tabindex="-1" role="dialog" aria-labelledby="">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                
+            </div>
+            <form method="post" asp-controller="Products" asp-action="MakeOffer">
+                <input type="hidden" name="productId" value="@Model.Id" />
+                <input type="hidden" id="price" value="@Model.Price" />
+                
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div>
+                            <button type="button" onclick="YuzdeTeklif(20)" id="20" value="20">%20</button>
+                            <button type="button" onclick="YuzdeTeklif(40)" id="40" value="40">%40</button>
+                            <button type="button" onclick="YuzdeTeklif(60)" id="60" value="60">%60</button>
+                        </div>
+                        <label>Miktar</label>       
+                        <input type="number" id="offerPrice" name="price" class="form-control" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                    <button type="submit" class="btn btn-primary">Teklif Ver</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="Buy" tabindex="-1" role="dialog" aria-labelledby="">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+
+            </div>
+            <form method="post" asp-controller="Products" asp-action="Buy">
+                <input type="hidden" asp-for="@Model.Id" />
+                <input type="hidden" asp-for="@Model.Price" />
+                
+                <label>     Ürünü Satın Almak İstediğinize Emin misiniz ?</label>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                    <button type="submit" class="btn btn-primary">Satın Al</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function YuzdeTeklif(perc)
+    {
+        var percentage = document.getElementById(perc).value;
+
+        var price = document.getElementById('price').value;
+        price = price.substring(0, price.indexOf(','));
+
+        var offerPrice = document.getElementById('offerPrice')
+
+        percentage = Math.floor(percentage);
+        price = Math.floor(price);
+
+        console.log(percentage);
+        console.log(price);
+        var result = price * percentage/100;
+
+        offerPrice.value = result;
+        console.log(result);
+    }
+
+</script>

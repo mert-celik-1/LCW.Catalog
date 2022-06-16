@@ -1,0 +1,81 @@
+﻿@model ProductAddDto
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Ürün ekleme </h5>
+
+                <form asp-controller="Products" asp-action="Add" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly"></div>
+
+
+
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label">Ad</label>
+                        <input asp-for="Name" class="form-control" />
+                        <span class="text-danger" asp-validation-for="Name"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label">Açıklama</label>
+                        <textarea asp-for="Description" class="form-control"></textarea>
+                        <span class="text-danger" asp-validation-for="Description"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label" asp-for="CategoryId">Kategori</label>
+                        <select asp-for="CategoryId" class="form-control" asp-items="@ViewBag.categoryList">
+                            <option value="">Kategori seçiniz</option>
+                        </select>
+
+                        <span class="text-danger" asp-validation-for="CategoryId"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label" asp-for="Color">Renk</label>
+                        <select asp-for="Color" class="form-control" asp-items="@ViewBag.colors">
+                        </select>
+
+                        <span class="text-danger" asp-validation-for="Color"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label" asp-for="Status">Kullanım Durumu</label>
+                        <select asp-for="Status" class="form-control" asp-items="@ViewBag.status">
+                        </select>
+
+                        <span class="text-danger" asp-validation-for="Status"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label" asp-for="Brand">Marka</label>
+                        <select asp-for="Brand" class="form-control" asp-items="@ViewBag.brands">
+                        </select>
+
+                        <span class="text-danger" asp-validation-for="Brand"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Price" class="form-label">Fiyat</label>
+                        <input asp-for="Price" type="number" class="form-control" />
+                        <span class="text-danger" asp-validation-for="Price"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label" asp-for="IsOfferable">Teklif Durumu</label>
+                        <select asp-for="IsOfferable" class="form-control">
+                            <option value=true>Teklife Açık</option>
+                            <option value=false>Teklife Kapalı</option>
+                        </select>
+
+                        <span class="text-danger" asp-validation-for="IsOfferable"></span>
+                    </div>
+
+
+                    <button type="submit" class="btn btn-primary">Ürün Kaydet</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

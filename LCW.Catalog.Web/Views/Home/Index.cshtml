@@ -1,0 +1,63 @@
+﻿@model LCW.Catalog.Web.ViewModels.HomeIndexViewModel
+@{
+    ViewData["Title"] = "Anasayfa";
+    var count = 0;
+}
+
+<div class="row">
+
+
+    <div class="col-3">
+        <div class="btn-group-vertical">
+            @foreach (var category in Model.Categories)
+            {
+                <a asp-action="Index" asp-controller="Home" asp-route-categoryId="@category.Id" type="button"  class="btn btn-primary">@category.Name</a>
+            }
+        </div>
+    </div>
+
+
+    <div class="col-9">
+        @if (Model.Products.Any())
+         {
+            @foreach (var item in Model.Products)
+            {
+                count++;
+                if (count == 1 || (count % 3 == 1))
+                {
+                    @Html.Raw("<div class='row row-cols-1 row-cols-md-3 g-4 mb-2' >")
+                }
+                <div class="col">
+                    <div class="card">
+                        <img src="https://thumbs.dreamstime.com/b/new-product-stamp-round-grunge-sign-label-181920855.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Name</h5>
+                            <div class="badge bg-primary">Kategori :@item.Category.Name </div>
+                            <p class="card-text">Marka :@item.Brand</p>
+                            <p class="card-text">Kullanım Durumu :@item.Status</p>
+                            <h4 class="text-primary">@item.Price TL</h4>
+
+                            <div>
+                                <a asp-controller="Products" asp-action="Detail" class="btn btn-success" asp-route-productId="@item.Id">Detay</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                if (count % 3 == 0)
+                {
+                    @Html.Raw("</div>")
+                }
+
+             }
+         }
+            else
+            {
+            <h1 class="alert">Ürün Mevcut Değil</h1>
+            }
+
+
+    </div>
+
+</div>
+
